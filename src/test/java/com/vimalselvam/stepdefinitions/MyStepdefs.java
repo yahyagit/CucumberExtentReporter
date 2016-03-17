@@ -1,4 +1,4 @@
-package com.demo.example.stepdefinitions;
+package com.vimalselvam.stepdefinitions;
 
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;

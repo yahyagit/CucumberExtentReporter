@@ -1,14 +1,12 @@
-package com.demo.example.listener;
+package com.vimalselvam.listener;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
-import com.relevantcodes.extentreports.model.Log;
 import gherkin.formatter.Formatter;
 import gherkin.formatter.Reporter;
 import gherkin.formatter.model.*;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

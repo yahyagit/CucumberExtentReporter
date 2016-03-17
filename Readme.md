@@ -9,7 +9,7 @@ To use this reporting plugin, your runner class should look like this:
 
 ```java
 @RunWith(Cucumber.class)
-@CucumberOptions(plugin = {"com.demo.example.listener.ExtentCucumberFormatter:output"})
+@CucumberOptions(plugin = {"com.vimalselvam.listener.ExtentCucumberFormatter"})
 public class RunCukesTest {
 }
 ```

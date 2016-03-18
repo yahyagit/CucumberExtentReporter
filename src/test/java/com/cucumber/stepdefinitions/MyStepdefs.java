@@ -1,6 +1,5 @@
-package com.vimalselvam.stepdefinitions;
+package com.cucumber.stepdefinitions;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import org.testng.Assert;

@@ -1,4 +1,4 @@
-package com.vimalselvam.listener;
+package com.cucumber.listener;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
@@ -7,31 +7,37 @@ import gherkin.formatter.Formatter;
 import gherkin.formatter.Reporter;
 import gherkin.formatter.model.*;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by vimalraj on 11/03/16.
+ * Cucumber custom format listener which generates ExtentsReport html file
  */
 public class ExtentCucumberFormatter implements Reporter, Formatter {
 
-    private ExtentReports extent = new ExtentReports("output/Run_" + System.currentTimeMillis() + "/report.html");
+    private ExtentReports extent;
     private ExtentTest featureTest;
     private ExtentTest scenarioTest;
-    private LinkedList<Step> testSteps = new LinkedList<Step>();
+    private LinkedList<Step> testSteps;
+
+    public ExtentCucumberFormatter(File filePath) {
+
+        if (!filePath.getPath().equals("")) {
+            String reportPath = filePath.getPath();
+            this.extent = new ExtentReports(reportPath);
+        } else {
+            this.extent = new ExtentReports("output/Run_" + System.currentTimeMillis() + "/report.html");
+        }
+
+        this.testSteps = new LinkedList<Step>();
+    }
 
     public void before(Match match, Result result) {
 
     }
 
     public void result(Result result) {
-//        System.out.println(result.getStatus());
-//        if ("passed".equals(result.getStatus())) {
-//            scenarioTest.getTest().setStatus(LogStatus.PASS);
-////            scenarioTest.log(LogStatus.PASS, "Test Passed");
-//        } else {
-//            scenarioTest.getTest().setStatus(LogStatus.FAIL);
-//        }
         if ("passed".equals(result.getStatus())) {
             scenarioTest.log(LogStatus.PASS, testSteps.poll().getName(), "PASSED");
         } else if ("failed".equals(result.getStatus())) {
@@ -69,10 +75,6 @@ public class ExtentCucumberFormatter implements Reporter, Formatter {
 
     public void feature(Feature feature) {
         featureTest = extent.startTest("Feature: " + feature.getName());
-
-//        for (Tag tag : feature.getTags()) {
-//            featureTest.assignCategory(tag.getName());
-//        }
     }
 
     public void scenarioOutline(ScenarioOutline scenarioOutline) {
@@ -105,7 +107,6 @@ public class ExtentCucumberFormatter implements Reporter, Formatter {
 
     public void endOfScenarioLifeCycle(Scenario scenario) {
         extent.endTest(scenarioTest);
-//        scenariosTest.add(scenarioTest);
         featureTest.appendChild(scenarioTest);
     }
 

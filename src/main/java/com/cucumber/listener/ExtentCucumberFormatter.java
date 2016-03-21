@@ -3,13 +3,20 @@ package com.cucumber.listener;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
+import cucumber.runtime.CucumberException;
+import cucumber.runtime.io.URLOutputStream;
 import gherkin.formatter.Formatter;
 import gherkin.formatter.Reporter;
 import gherkin.formatter.model.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Cucumber custom format listener which generates ExtentsReport html file
@@ -20,14 +27,29 @@ public class ExtentCucumberFormatter implements Reporter, Formatter {
     private ExtentTest featureTest;
     private ExtentTest scenarioTest;
     private LinkedList<Step> testSteps;
+    private File htmlReportDir;
+
+    private static final Map<String, String> MIME_TYPES_EXTENSIONS = new HashMap() {
+        {
+            this.put("image/bmp", "bmp");
+            this.put("image/gif", "gif");
+            this.put("image/jpeg", "jpg");
+            this.put("image/png", "png");
+            this.put("image/svg+xml", "svg");
+            this.put("video/ogg", "ogg");
+        }
+    };
 
     public ExtentCucumberFormatter(File filePath) {
 
         if (!filePath.getPath().equals("")) {
             String reportPath = filePath.getPath();
+            this.htmlReportDir = new File(reportPath);
             this.extent = new ExtentReports(reportPath);
         } else {
-            this.extent = new ExtentReports("output/Run_" + System.currentTimeMillis() + "/report.html");
+            String reportDir = "output/Run_" + System.currentTimeMillis();
+            this.htmlReportDir = new File(reportDir);
+            this.extent = new ExtentReports(reportDir + "/report.html");
         }
 
         this.testSteps = new LinkedList<Step>();
@@ -58,7 +80,10 @@ public class ExtentCucumberFormatter implements Reporter, Formatter {
     }
 
     public void embedding(String s, byte[] bytes) {
-
+        String extension = (String)MIME_TYPES_EXTENSIONS.get(s);
+        String fileName = "screenshot-" + System.currentTimeMillis() + "." + extension;
+        this.writeBytesAndClose(bytes, this.reportFileOutputStream(fileName));
+        scenarioTest.log(LogStatus.INFO, scenarioTest.addScreenCapture(fileName));
     }
 
     public void write(String s) {
@@ -121,6 +146,22 @@ public class ExtentCucumberFormatter implements Reporter, Formatter {
     public void eof() {
         extent.endTest(featureTest);
         extent.flush();
+    }
+
+    private OutputStream reportFileOutputStream(String fileName) {
+        try {
+            return new URLOutputStream(new URL(this.htmlReportDir.toURI().toURL(), fileName));
+        } catch (IOException var3) {
+            throw new CucumberException(var3);
+        }
+    }
+
+    private void writeBytesAndClose(byte[] buf, OutputStream out) {
+        try {
+            out.write(buf);
+        } catch (IOException var4) {
+            throw new CucumberException("Unable to write to report file item: ", var4);
+        }
     }
 
 }

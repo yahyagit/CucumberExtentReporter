@@ -4,6 +4,9 @@ This java project helps you to generate the custom cucumber-jvm report using Ext
 
 The [ExtentReports](http://extentreports.relevantcodes.com/) plugin is developed by Anshoo Arora. This is one of the best reporting plugin available for testing world. This plugin can be used with any Test Apis.
 
+## Build Status
+[![Build Status](https://travis-ci.org/email2vimalraj/CucumberExtentReporter.svg?branch=master)](https://travis-ci.org/email2vimalraj/CucumberExtentReporter)
+
 ## Usage
 If you are using a maven based project, you can directly add this library as a dependency:
 

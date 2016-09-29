@@ -110,6 +110,10 @@ public class ExtentCucumberFormatter implements Reporter, Formatter {
         initiateExtentCucumberFormatter(new File(reportFilePath));
     }
 
+    public static void setTestRunnerOutput(String s) {
+        extent.setTestRunnerOutput(s);
+    }
+
     public static void loadConfig(File configFile) {
         extent.loadConfig(configFile);
     }

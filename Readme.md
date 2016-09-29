@@ -21,6 +21,9 @@ If you are using a maven based project, you can directly add this library as a d
 If not, download the jar from [here](http://search.maven.org/remotecontent?filepath=com/vimalselvam/cucumber-extentsreport/1.1.0/cucumber-extentsreport-1.1.0.jar).
 
 ## Release Notes
+### v1.1.1
+- User now can add test runner log from anywhere. The output will be displayed under the Log tab in the report. Refer the example.
+
 ### v1.1.0
 - User now can add system information to the report.
 - User now can load the extent report config xml to customize the report.
@@ -112,4 +115,15 @@ To load the config file:
 
 ```
 ExtentCucumberFormatter.loadConfig(new File("your config xml file path"));
+```
+
+## Add Test Runner Logs
+To add the test runner log from any of your step, you can do this:
+
+```
+@Given("^I am on Google home page$")
+public void iAmOnGoogleHomePage() {
+    open("http://www.google.com");
+    ExtentCucumberFormatter.setTestRunnerOutput("Your log goes here");
+}
 ```

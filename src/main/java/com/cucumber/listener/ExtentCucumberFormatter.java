@@ -181,6 +181,10 @@ public class ExtentCucumberFormatter implements Reporter, Formatter {
 
     public void feature(Feature feature) {
         featureTest = extent.startTest("Feature: " + feature.getName());
+
+        for (Tag tag : feature.getTags()) {
+            featureTest.assignCategory(tag.getName());
+        }
     }
 
     public void scenarioOutline(ScenarioOutline scenarioOutline) {

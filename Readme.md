@@ -14,11 +14,11 @@ If you are using a maven based project, you can directly add this library as a d
 <dependency>
     <groupId>com.vimalselvam</groupId>
     <artifactId>cucumber-extentsreport</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 </dependency>
 ```
 
-If not, download the jar from [here](http://search.maven.org/remotecontent?filepath=com/vimalselvam/cucumber-extentsreport/1.1.0/cucumber-extentsreport-1.1.0.jar).
+If not, download the jar from [here](http://search.maven.org/#search%7Cga%7C1%7Ccucumber-extentsreport).
 
 ## Release Notes
 ### v1.1.1
@@ -58,7 +58,7 @@ public class RunCukesTest {
         // Also you can add system information using a hash map
         Map systemInfo = new HashMap();
         systemInfo.put("Cucumber version", "v1.2.3");
-        systemInfo.put("Extent Cucumber Reporter version", "v1.1.0");
+        systemInfo.put("Extent Cucumber Reporter version", "v1.1.1");
         ExtentCucumberFormatter.addSystemInfo(systemInfo);
     }
 
@@ -107,7 +107,7 @@ or
 ```
 Map systemInfo = new HashMap();
 systemInfo.put("Cucumber version", "v1.2.3");
-systemInfo.put("Extent Cucumber Reporter version", "v1.1.0");
+systemInfo.put("Extent Cucumber Reporter version", "v1.1.1");
 ExtentCucumberFormatter.addSystemInfo(systemInfo);
 ```
 

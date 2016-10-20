@@ -110,6 +110,10 @@ public class ExtentCucumberFormatter implements Reporter, Formatter {
         initiateExtentCucumberFormatter(new File(reportFilePath));
     }
 
+    public static void setTestRunnerOutput(String s) {
+        extent.setTestRunnerOutput(s);
+    }
+
     public static void loadConfig(File configFile) {
         extent.loadConfig(configFile);
     }
@@ -134,14 +138,15 @@ public class ExtentCucumberFormatter implements Reporter, Formatter {
 
     public void result(Result result) {
         if (!scenarioOutlineTest) {
+            Step step = testSteps.poll();
             if ("passed".equals(result.getStatus())) {
-                scenarioTest.log(LogStatus.PASS, testSteps.poll().getName(), "PASSED");
+                scenarioTest.log(LogStatus.PASS, step.getKeyword() + step.getName(), "PASSED");
             } else if ("failed".equals(result.getStatus())) {
-                scenarioTest.log(LogStatus.FAIL, testSteps.poll().getName(), result.getError());
+                scenarioTest.log(LogStatus.FAIL, step.getKeyword() + step.getName(), result.getError());
             } else if ("skipped".equals(result.getStatus())) {
-                scenarioTest.log(LogStatus.SKIP, testSteps.poll().getName(), "SKIPPED");
+                scenarioTest.log(LogStatus.SKIP, step.getKeyword() + step.getName(), "SKIPPED");
             } else if ("undefined".equals(result.getStatus())) {
-                scenarioTest.log(LogStatus.UNKNOWN, testSteps.poll().getName(), "UNDEFINED");
+                scenarioTest.log(LogStatus.UNKNOWN, step.getKeyword() + step.getName(), "UNDEFINED");
             }
         }
     }
@@ -176,6 +181,10 @@ public class ExtentCucumberFormatter implements Reporter, Formatter {
 
     public void feature(Feature feature) {
         featureTest = extent.startTest("Feature: " + feature.getName());
+
+        for (Tag tag : feature.getTags()) {
+            featureTest.assignCategory(tag.getName());
+        }
     }
 
     public void scenarioOutline(ScenarioOutline scenarioOutline) {

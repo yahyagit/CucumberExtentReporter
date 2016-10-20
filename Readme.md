@@ -14,13 +14,18 @@ If you are using a maven based project, you can directly add this library as a d
 <dependency>
     <groupId>com.vimalselvam</groupId>
     <artifactId>cucumber-extentsreport</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 </dependency>
 ```
 
-If not, download the jar from [here](http://search.maven.org/remotecontent?filepath=com/vimalselvam/cucumber-extentsreport/1.1.0/cucumber-extentsreport-1.1.0.jar).
+If not, download the jar from [here](http://search.maven.org/#search%7Cga%7C1%7Ccucumber-extentsreport).
 
 ## Release Notes
+### v1.1.1
+- User now can add test runner log from anywhere. The output will be displayed under the Log tab in the report. Refer the example.
+- All the step keywords from cucumber is now displayed.
+- Fixed to list the feature tags in the Categories section.
+
 ### v1.1.0
 - User now can add system information to the report.
 - User now can load the extent report config xml to customize the report.
@@ -53,7 +58,7 @@ public class RunCukesTest {
         // Also you can add system information using a hash map
         Map systemInfo = new HashMap();
         systemInfo.put("Cucumber version", "v1.2.3");
-        systemInfo.put("Extent Cucumber Reporter version", "v1.1.0");
+        systemInfo.put("Extent Cucumber Reporter version", "v1.1.1");
         ExtentCucumberFormatter.addSystemInfo(systemInfo);
     }
 
@@ -102,7 +107,7 @@ or
 ```
 Map systemInfo = new HashMap();
 systemInfo.put("Cucumber version", "v1.2.3");
-systemInfo.put("Extent Cucumber Reporter version", "v1.1.0");
+systemInfo.put("Extent Cucumber Reporter version", "v1.1.1");
 ExtentCucumberFormatter.addSystemInfo(systemInfo);
 ```
 
@@ -112,4 +117,15 @@ To load the config file:
 
 ```
 ExtentCucumberFormatter.loadConfig(new File("your config xml file path"));
+```
+
+## Add Test Runner Logs
+To add the test runner log from any of your step, you can do this:
+
+```
+@Given("^I am on Google home page$")
+public void iAmOnGoogleHomePage() {
+    open("http://www.google.com");
+    ExtentCucumberFormatter.setTestRunnerOutput("Your log goes here");
+}
 ```

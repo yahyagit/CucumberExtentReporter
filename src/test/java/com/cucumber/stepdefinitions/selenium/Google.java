@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 /**
@@ -20,6 +21,8 @@ public class Google {
     @Before
     public void setup() {
         driver = new FirefoxDriver();
+//    	System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver_win/chromedriver.exe");
+//    	driver = new ChromeDriver();
     }
 
     @Given("^I am on Google home page$")
